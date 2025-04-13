@@ -1,6 +1,10 @@
-package app;
+package app.strategy;
 
 import java.util.List;
+
+import app.model.Parcel;
+import app.model.Truck;
+
 import java.util.ArrayList;
 
 public abstract class AbstractTruckLoading implements TruckLoadingStrategy {
@@ -12,6 +16,7 @@ public abstract class AbstractTruckLoading implements TruckLoadingStrategy {
                 return truck;
             }
         }
+        
         Truck newTruck = new Truck(truckCapacity);
         trucks.add(newTruck);
         return newTruck;

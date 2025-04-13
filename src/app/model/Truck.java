@@ -1,4 +1,4 @@
-package app;
+package app.model;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ public class Truck {
         return false;
     }
 
-    public int getRemainingCapacity() {
-        int usedSpace = parcels.stream().mapToInt(Parcel::getWeight).sum();
+    public double getRemainingCapacity() {
+        double usedSpace = parcels.stream().mapToDouble(Parcel::getWeight).sum();
         return capacity - usedSpace;
     }
 
