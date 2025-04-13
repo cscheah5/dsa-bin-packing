@@ -4,27 +4,47 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Truck {
-    private int capacity;
-    private List<Parcel> parcels = new ArrayList<>();
+    private double capacity;
+    private double remainingCapacity;
+    private List<Parcel> parcels;
+    private int index;
 
-    public Truck(int capacity) {
+    public Truck(double capacity) {
         this.capacity = capacity;
+        this.parcels = new ArrayList<>();
+        this.remainingCapacity = capacity;
     }
+    
+    public List<Parcel> getParcels() {
+        return parcels;
+    }
+    
+    public double getCapacity() {
+		return capacity;
+	}
+    
+    public double getRemainingCapacity() {
+		return remainingCapacity;
+	}
+    
+    public double getUsedCapacity() {
+		return capacity - remainingCapacity;
+	}
+    
+    public int getIndex() {
+		return index;
+	}
 
     public boolean addParcel(Parcel parcel) {
-        if (getRemainingCapacity() >= parcel.getWeight()) {
+        if (remainingCapacity >= parcel.getWeight()) {
             parcels.add(parcel);
+            remainingCapacity -= parcel.getWeight();
             return true;
         }
         return false;
     }
 
-    public double getRemainingCapacity() {
-        double usedSpace = parcels.stream().mapToDouble(Parcel::getWeight).sum();
-        return capacity - usedSpace;
-    }
-
-    public List<Parcel> getParcels() {
-        return parcels;
-    }
+	public boolean canFit(Parcel parcel) {
+		return remainingCapacity >= parcel.getWeight();
+	}
 }

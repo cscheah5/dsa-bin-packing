@@ -4,6 +4,7 @@ import java.util.List;
 
 import app.model.Parcel;
 import app.model.Truck;
+import app.model.TruckLoadingProblem;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public abstract class AbstractTruckLoading implements TruckLoadingStrategy {
         trucks.add(newTruck);
         return newTruck;
     }
-
+    
     @Override
-    public abstract List<Truck> loadParcels(List<Parcel> parcels, int truckCapacity);
+    public abstract List<Truck> solve(TruckLoadingProblem problem);
 }

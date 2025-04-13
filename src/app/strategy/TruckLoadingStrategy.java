@@ -2,11 +2,9 @@ package app.strategy;
 
 import java.util.List;
 
-import app.model.Parcel;
 import app.model.Truck;
+import app.model.TruckLoadingProblem;
 
 public interface TruckLoadingStrategy {
-
-	List<Truck> loadParcels(List<Parcel> parcels, int truckCapacity);
-
+	List<Truck> solve(TruckLoadingProblem problem);
 }

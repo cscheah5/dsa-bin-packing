@@ -20,7 +20,7 @@ public class CsvDataLoader {
 				String[] values = line.split(csvDelimeter);
 				try {
 					// Parse truck capacity (column 1)
-					Integer truckCapacity = Integer.parseInt(values[0].trim());
+					Double truckCapacity = Double.parseDouble(values[0].trim());
 
 					// Parse number of records (column 2)
 					int numRecords = Integer.parseInt(values[1].trim());
@@ -30,7 +30,7 @@ public class CsvDataLoader {
 					for (int i = 2; i < values.length; i += 2) {
 						double weight = Double.parseDouble(values[i].trim());
 						String type = values[i + 1].trim();
-						parcels.add(new Parcel(weight, type));
+						parcels.add(new Parcel(weight, type, (i-1)/2));
 					}
 
 					// Create TruckLoadingProblem instance
