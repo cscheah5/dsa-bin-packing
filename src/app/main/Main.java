@@ -23,7 +23,7 @@ public class Main {
 	public static void displayResults(List<Truck> trucks, String strategyName) {
 		System.out.println("\n══════════════════════════════════════");
 		System.out.println(" STRATEGY: " + strategyName.toUpperCase());
-		System.out.println("══════════════════════════════════════");
+		System.out.println("══════════════════════════════════════morning");
 
 		printSummary(trucks);
 		printVisualization(trucks);
