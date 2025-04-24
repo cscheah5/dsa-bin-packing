@@ -20,6 +20,7 @@ public class Main {
 		displayResults(trucks, "FIRST FIT");
 	}
 	
+	// to be removed if no user input
 	public static int getNumberOfTrucks() {
         Scanner scanner = new Scanner(System.in);
         int numTrucks = -1;
@@ -43,6 +44,31 @@ public class Main {
 
         return numTrucks;
     }
+	
+	// to be removed if no user input
+	public static double getTruckCapacity() {
+		Scanner scanner = new Scanner(System.in);
+		double capacity = -1;
+
+		while (true) {
+			System.out.print("Enter the capacity of each truck (e.g., 1000.0): ");
+			try {
+				capacity = scanner.nextDouble();
+
+				if (capacity > 0) {
+					break; // valid input
+				} else {
+					System.out.println("Please enter a positive value.");
+				}
+
+			} catch (Exception e) {
+				System.out.println("Invalid input. Please enter a number.");
+				scanner.nextLine(); // clear the invalid input
+			}
+		}
+
+		return capacity;
+	}
 	
 	public static void displayResults(List<Truck> trucks, String strategyName) {
 		System.out.println("\n══════════════════════════════════════");
