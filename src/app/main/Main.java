@@ -16,10 +16,10 @@ public class Main {
 		
 		
 		TruckLoadingStrategy firstFit = new FirstFitStrategy();
-		List<Truck> firstFitTrucks = firstFit.solve(problems.get(0));
+//		List<Truck> firstFitTrucks = firstFit.solve(problems.get(0));
 		
 		TruckLoadingStrategy bestFit = new BestFitStrategy();
-		List<Truck> bestFitTrucks = bestFit.solve(problems.get(0));
+//		List<Truck> bestFitTrucks = bestFit.solve(problems.get(0));
 
 //		displayResults(trucks, "FIRST FIT");
 		CompareStrategy.compareTimeComplexity(firstFit, bestFit, problems.get(0));
