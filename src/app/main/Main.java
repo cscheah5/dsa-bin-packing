@@ -12,12 +12,20 @@ public class Main {
 
 		//problems.forEach(System.out::println);
 		System.out.println(problems.get(0));
+		
+		
+		TruckLoadingStrategy firstFit = new FirstFitStrategy();
+		List<Truck> firstFitTrucks = firstFit.solve(problems.get(0));
+		
+		TruckLoadingStrategy bestFit = new BestFitStrategy();
+		List<Truck> bestFitTrucks = bestFit.solve(problems.get(0));
 
-		TruckLoadingStrategy strategy = new FirstFitStrategy();
-
-		List<Truck> trucks = strategy.solve(problems.get(0));
-
-		displayResults(trucks, "FIRST FIT");
+//		displayResults(trucks, "FIRST FIT");
+	}
+	
+	//TODO
+	public static void compareTimeComplexity(TruckLoadingStrategy strat1, TruckLoadingStrategy strat2) {
+		
 	}
 	
 	// to be removed if no user input
