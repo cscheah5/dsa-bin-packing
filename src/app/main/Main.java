@@ -129,4 +129,37 @@ public class Main {
 			System.out.printf("  Remaining space: %.2f%n", truck.getRemainingCapacity());
 		}
 	}
+	
+	// Print table helper method in case if needed
+	public static void printTable(List<String> headers, List<List<String>> rows) {
+        int[] columnWidths = new int[headers.size()];
+
+        // Calculate max width for each column
+        for (int i = 0; i < headers.size(); i++) {
+            columnWidths[i] = headers.get(i).length();
+            for (List<String> row : rows) {
+                columnWidths[i] = Math.max(columnWidths[i], row.get(i).length());
+            }
+        }
+
+        // Print header row
+        for (int i = 0; i < headers.size(); i++) {
+            System.out.printf("%-" + (columnWidths[i] + 2) + "s", headers.get(i));
+        }
+        System.out.println();
+
+        // Print separator
+        for (int width : columnWidths) {
+            System.out.print("-".repeat(width + 2));
+        }
+        System.out.println();
+
+        // Print data rows
+        for (List<String> row : rows) {
+            for (int i = 0; i < row.size(); i++) {
+                System.out.printf("%-" + (columnWidths[i] + 2) + "s", row.get(i));
+            }
+            System.out.println();
+        }
+    }
 }
