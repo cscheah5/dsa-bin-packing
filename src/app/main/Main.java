@@ -2,6 +2,7 @@ package app.main;
 
 import java.util.*;
 
+import app.compare.CompareStrategy;
 import app.io.CsvDataLoader;
 import app.model.*;
 import app.strategy.*;
@@ -21,12 +22,11 @@ public class Main {
 		List<Truck> bestFitTrucks = bestFit.solve(problems.get(0));
 
 //		displayResults(trucks, "FIRST FIT");
-	}
-	
-	//TODO
-	public static void compareTimeComplexity(TruckLoadingStrategy strat1, TruckLoadingStrategy strat2) {
+		CompareStrategy.compareTimeComplexity(firstFit, bestFit, problems.get(0));
 		
 	}
+	
+
 	
 	// to be removed if no user input
 	public static int getNumberOfTrucks() {
