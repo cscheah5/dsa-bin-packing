@@ -22,8 +22,13 @@ public class Main {
 //		List<Truck> bestFitTrucks = bestFit.solve(problems.get(0));
 
 //		displayResults(trucks, "FIRST FIT");
+		System.out.println("Comparing Time Complexity:");
 		CompareStrategy.compareTimeComplexity(firstFit, bestFit, problems.get(0));
+		System.out.println();
+		System.out.println("Comparing Time Taken:");
 		CompareStrategy.compareTime(firstFit, bestFit, problems.get(0));
+		System.out.println();
+		System.out.println("Comparing Memory Used:");
 		CompareStrategy.compareMemory(firstFit, bestFit, problems.get(0));
 		
 	}

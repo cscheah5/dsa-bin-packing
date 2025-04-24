@@ -34,7 +34,6 @@ public class CompareStrategy {
 		//
 	}
 
-	// TODO
 	public static void compareTime(TruckLoadingStrategy firstFit, TruckLoadingStrategy bestFit,
 			TruckLoadingProblem problem) {
 
@@ -53,13 +52,13 @@ public class CompareStrategy {
 
 	}
 
-	// TODO
 	public static void compareMemory(TruckLoadingStrategy firstFit, TruckLoadingStrategy bestFit,
 			TruckLoadingProblem problem) {
 		Runtime runtime = Runtime.getRuntime();
 
 		// FirstFit memory
-		System.gc(); // Suggest garbage collection clear unused memory before measuring (not guaranteed but helps).
+		System.gc(); // Suggest garbage collection clear unused memory before measuring (not
+						// guaranteed but helps).
 		long beforeFirst = runtime.totalMemory() - runtime.freeMemory();
 		solveSilently(firstFit, problem);
 		long afterFirst = runtime.totalMemory() - runtime.freeMemory();
