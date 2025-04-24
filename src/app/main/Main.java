@@ -23,6 +23,7 @@ public class Main {
 
 //		displayResults(trucks, "FIRST FIT");
 		CompareStrategy.compareTimeComplexity(firstFit, bestFit, problems.get(0));
+		CompareStrategy.compareTime(firstFit, bestFit, problems.get(0));
 		
 	}
 	

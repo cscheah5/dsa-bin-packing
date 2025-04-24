@@ -37,8 +37,19 @@ public class CompareStrategy {
 	// TODO
 	public static void compareTime(TruckLoadingStrategy firstFit, TruckLoadingStrategy bestFit,
 			TruckLoadingProblem problem) {
-		List<Truck> firstFitTruck = firstFit.solve(problem);
-		List<Truck> bestFitTruck = bestFit.solve(problem);
+		
+		long startFirst = System.nanoTime();
+		solveSilently(firstFit, problem);
+		long endFirst = System.nanoTime();
+
+		long startBest = System.nanoTime();
+		solveSilently(bestFit, problem);
+		long endBest = System.nanoTime();
+		
+		System.out.printf("FirstFit time: %.3f ms", (endFirst - startFirst)/ 1_000_000.0);
+		System.out.println();
+		System.out.printf("BestFit time: %.3f ms", (endBest - startBest)/ 1_000_000.0);
+		
 	}
 
 	// TODO
