@@ -19,7 +19,31 @@ public class Main {
 
 		displayResults(trucks, "FIRST FIT");
 	}
+	
+	public static int getNumberOfTrucks() {
+        Scanner scanner = new Scanner(System.in);
+        int numTrucks = -1;
 
+        while (true) {
+            System.out.print("Enter the number of trucks you have: ");
+            try {
+                numTrucks = scanner.nextInt();
+
+                if (numTrucks > 0) {
+                    break; // valid input
+                } else {
+                    System.out.println("Please enter a positive number.");
+                }
+
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please enter an integer.");
+                scanner.nextLine(); // clear the invalid input
+            }
+        }
+
+        return numTrucks;
+    }
+	
 	public static void displayResults(List<Truck> trucks, String strategyName) {
 		System.out.println("\n══════════════════════════════════════");
 		System.out.println(" STRATEGY: " + strategyName.toUpperCase());
