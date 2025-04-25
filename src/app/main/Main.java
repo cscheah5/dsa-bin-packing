@@ -10,17 +10,18 @@ import app.strategy.*;
 public class Main {
 	public static void main(String[] args) {
 		List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv");
+		System.out.println(parcels.get(0));
 		
 		// something like these 
-		TruckLoadingProblem problem1 = new TruckLoadingProblem(100, parcels);
-		TruckLoadingProblem problem2 = new TruckLoadingProblem(200, parcels);
-		TruckLoadingProblem problem3 = new TruckLoadingProblem(300, parcels);
-		TruckLoadingProblem problem4 = new TruckLoadingProblem(400, parcels);
-		
-		TruckLoadingStrategy firstFit = new FirstFitStrategy();
-		List<Truck> firstFitTrucks = firstFit.solve(problem1);
-		
-		TruckLoadingStrategy bestFit = new BestFitStrategy();
+//		TruckLoadingProblem problem1 = new TruckLoadingProblem(100, parcels);
+//		TruckLoadingProblem problem2 = new TruckLoadingProblem(200, parcels);
+//		TruckLoadingProblem problem3 = new TruckLoadingProblem(300, parcels);
+//		TruckLoadingProblem problem4 = new TruckLoadingProblem(400, parcels);
+//		
+//		TruckLoadingStrategy firstFit = new FirstFitStrategy();
+//		List<Truck> firstFitTrucks = firstFit.solve(problem1);
+//		
+//		TruckLoadingStrategy bestFit = new BestFitStrategy();
 //		List<Truck> bestFitTrucks = bestFit.solve(problems.get(0));
 
 //		displayResults(trucks, "FIRST FIT");
@@ -28,58 +29,6 @@ public class Main {
 	
 
 		
-	}
-	
-
-	
-	// to be removed if no user input
-	public static int getNumberOfTrucks() {
-        Scanner scanner = new Scanner(System.in);
-        int numTrucks = -1;
-
-        while (true) {
-            System.out.print("Enter the number of trucks you have: ");
-            try {
-                numTrucks = scanner.nextInt();
-
-                if (numTrucks > 0) {
-                    break; // valid input
-                } else {
-                    System.out.println("Please enter a positive number.");
-                }
-
-            } catch (Exception e) {
-                System.out.println("Invalid input. Please enter an integer.");
-                scanner.nextLine(); // clear the invalid input
-            }
-        }
-
-        return numTrucks;
-    }
-	
-	// to be removed if no user input
-	public static double getTruckCapacity() {
-		Scanner scanner = new Scanner(System.in);
-		double capacity = -1;
-
-		while (true) {
-			System.out.print("Enter the capacity of each truck (e.g., 1000.0): ");
-			try {
-				capacity = scanner.nextDouble();
-
-				if (capacity > 0) {
-					break; // valid input
-				} else {
-					System.out.println("Please enter a positive value.");
-				}
-
-			} catch (Exception e) {
-				System.out.println("Invalid input. Please enter a number.");
-				scanner.nextLine(); // clear the invalid input
-			}
-		}
-
-		return capacity;
 	}
 	
 	public static void displayResults(List<Truck> trucks, String strategyName) {
