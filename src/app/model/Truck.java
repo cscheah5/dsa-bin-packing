@@ -3,20 +3,18 @@ package app.model;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Truck {
+public class Truck extends AbstractStackContainer<Parcel>{
     private double capacity;
     private double remainingCapacity;
-    private List<Parcel> parcels;
-    private int index;
-
+    
     public Truck(double capacity) {
+    	super(); // it will create items arraylist
         this.capacity = capacity;
-        this.parcels = new ArrayList<>();
         this.remainingCapacity = capacity;
     }
     
     public List<Parcel> getParcels() {
-        return parcels;
+        return items;
     }
     
     public double getCapacity() {
@@ -31,20 +29,18 @@ public class Truck {
 		return capacity - remainingCapacity;
 	}
     
-    public int getIndex() {
-		return index;
-	}
-
     public boolean addParcel(Parcel parcel) {
-        if (remainingCapacity >= parcel.getWeight()) {
-            parcels.add(parcel);
+        if (canFit(parcel)) {
+        	push(parcel);
             remainingCapacity -= parcel.getWeight();
             return true;
         }
         return false;
     }
-
-	public boolean canFit(Parcel parcel) {
-		return remainingCapacity >= parcel.getWeight();
+    
+    @Override
+	public boolean canFit(Item item) {
+		return remainingCapacity >= item.getWeight();
 	}
+
 }
