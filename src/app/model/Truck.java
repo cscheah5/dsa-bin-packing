@@ -38,6 +38,21 @@ public class Truck extends AbstractStackContainer<Parcel>{
         return false;
     }
     
+    public boolean removeParcel(Parcel parcel) {
+    	if(!isEmpty()) {
+    		pop();
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public Parcel getParcel() {
+    	if(!isEmpty()) {
+    		return peek();
+    	}
+    	return null;
+    }
+    
     @Override
 	public boolean canFit(Item item) {
 		return remainingCapacity >= item.getWeight();
