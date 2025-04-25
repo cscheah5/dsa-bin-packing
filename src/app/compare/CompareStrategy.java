@@ -34,50 +34,6 @@ public class CompareStrategy {
 		//
 	}
 
-	public static void compareTime(TruckLoadingStrategy firstFit, TruckLoadingStrategy bestFit,
-			TruckLoadingProblem problem) {
-
-		long startFirst = System.nanoTime();
-		solveSilently(firstFit, problem);
-		long endFirst = System.nanoTime();
-
-		long startBest = System.nanoTime();
-		solveSilently(bestFit, problem);
-		long endBest = System.nanoTime();
-
-		System.out.printf("FirstFit time: %.3f ms", (endFirst - startFirst) / 1_000_000.0);
-		System.out.println();
-		System.out.printf("BestFit time: %.3f ms", (endBest - startBest) / 1_000_000.0);
-		System.out.println();
-
-	}
-
-	public static void compareMemory(TruckLoadingStrategy firstFit, TruckLoadingStrategy bestFit,
-			TruckLoadingProblem problem) {
-		Runtime runtime = Runtime.getRuntime();
-
-		// FirstFit memory
-		System.gc(); // Suggest garbage collection clear unused memory before measuring (not
-						// guaranteed but helps).
-		long beforeFirst = runtime.totalMemory() - runtime.freeMemory();
-		solveSilently(firstFit, problem);
-		long afterFirst = runtime.totalMemory() - runtime.freeMemory();
-		long usedFirst = afterFirst - beforeFirst;
-
-		// BestFit memory
-		System.gc();
-		long beforeBest = runtime.totalMemory() - runtime.freeMemory();
-		solveSilently(bestFit, problem);
-		long afterBest = runtime.totalMemory() - runtime.freeMemory();
-		long usedBest = afterBest - beforeBest;
-
-//		System.out.printf("FirstFit Memory Used: %d bytes%n", usedFirst);
-//		System.out.printf("BestFit Memory Used: %d bytes%n", usedBest);
-		System.out.printf("FirstFit Memory Used: %.2f KB%n", usedFirst / 1024.0);
-		System.out.printf("BestFit Memory Used: %.2f KB%n", usedBest / 1024.0);
-
-	}
-
 	// it suppress the output from solving the problem
 	public static List<Truck> solveSilently(TruckLoadingStrategy strategy, TruckLoadingProblem problem) {
 		List<Truck> result;
