@@ -10,19 +10,24 @@ import app.strategy.*;
 public class Main {
 	public static void main(String[] args) {
 		List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv");
-
-		//problems.forEach(System.out::println);
-		System.out.println(parcels.get(0));
 		
+		// something like these 
+		TruckLoadingProblem problem1 = new TruckLoadingProblem(100, parcels);
+		TruckLoadingProblem problem2 = new TruckLoadingProblem(200, parcels);
+		TruckLoadingProblem problem3 = new TruckLoadingProblem(300, parcels);
+		TruckLoadingProblem problem4 = new TruckLoadingProblem(400, parcels);
 		
 		TruckLoadingStrategy firstFit = new FirstFitStrategy();
-//		List<Truck> firstFitTrucks = firstFit.solve(problems.get(0));
+		List<Truck> firstFitTrucks = firstFit.solve(problem1);
 		
 		TruckLoadingStrategy bestFit = new BestFitStrategy();
 //		List<Truck> bestFitTrucks = bestFit.solve(problems.get(0));
 
 //		displayResults(trucks, "FIRST FIT");
-//		System.out.println("Comparing Time Complexity:");	
+//		System.out.println("Comparing Time Complexity:");
+	
+
+		
 	}
 	
 
