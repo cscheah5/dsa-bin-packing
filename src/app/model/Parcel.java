@@ -1,30 +1,54 @@
 package app.model;
 
 public class Parcel {
-    private double weight;
-    private String type;
-    private int index;
+	private String type;
+	private double weight;
+	private boolean fragile;
+	private String destination;
 
-    public Parcel(double weight, String type, int index) {
-        this.weight = weight;
-        this.type = type;
-        this.index = index;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public String getType() {
-        return type;
-    }
-    
-    public int getIndex() {
-		return index;
+	public Parcel(String type, double weight, boolean fragile, String destination) {
+		this.type = type;
+		this.weight = weight;
+		this.fragile = fragile;
+		this.destination = destination;
 	}
-    
-    @Override
-    public String toString() {
-        return String.format("Parcel{weight=%.2f, type=%s, index=%d}", weight, type, index);
-    }
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public boolean isFragile() {
+		return fragile;
+	}
+
+	public void setFragile(boolean fragile) {
+		this.fragile = fragile;
+	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+
+	@Override
+	public String toString() {
+		return "Parcel [type=" + type + ", weight=" + weight + ", fragile=" + fragile + ", destination=" + destination
+				+ "]";
+	}
+
 }
