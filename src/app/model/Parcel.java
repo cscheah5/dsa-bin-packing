@@ -1,6 +1,6 @@
 package app.model;
 
-public class Parcel {
+public class Parcel implements Item {
 	private String type;
 	private double weight;
 	private boolean fragile;
@@ -12,27 +12,33 @@ public class Parcel {
 		this.fragile = fragile;
 		this.destination = destination;
 	}
-
+	
+	@Override
 	public String getType() {
 		return type;
 	}
-
+	
+	@Override
 	public void setType(String type) {
 		this.type = type;
 	}
-
+	
+	@Override
 	public double getWeight() {
 		return weight;
 	}
-
+	
+	@Override
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
-
+	
+	@Override
 	public boolean isFragile() {
 		return fragile;
 	}
-
+	
+	@Override
 	public void setFragile(boolean fragile) {
 		this.fragile = fragile;
 	}
