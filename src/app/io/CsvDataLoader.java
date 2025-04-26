@@ -29,7 +29,7 @@ public class CsvDataLoader {
 	                String[] data = line.split(delimiter);
 	                // Print each line (you can process the data as needed)
 //	                System.out.println("Type: " + data[0] + ", Weight: " + data[1] + ", Fragile: " + data[2] + ", Destination: " + data[3]);
-	                parcels.add(new Parcel(data[0], Double.parseDouble(data[1]), Boolean.parseBoolean(data[2]), data[3]));
+	                parcels.add(new Parcel(parsedRecord, data[0], Double.parseDouble(data[1]), Boolean.parseBoolean(data[2]), data[3]));
 	                
 	                parsedRecord++;
 	            }

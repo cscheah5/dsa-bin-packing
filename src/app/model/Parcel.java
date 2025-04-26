@@ -1,16 +1,22 @@
 package app.model;
 
 public class Parcel implements Item {
+	private int index; // To track the parcel
 	private String type;
 	private double weight;
 	private boolean fragile;
 	private String destination;
 
-	public Parcel(String type, double weight, boolean fragile, String destination) {
+	public Parcel(int index, String type, double weight, boolean fragile, String destination) {
+		this.index = index;
 		this.type = type;
 		this.weight = weight;
 		this.fragile = fragile;
 		this.destination = destination;
+	}
+	
+	public int getIndex() {
+		return index;
 	}
 	
 	@Override
