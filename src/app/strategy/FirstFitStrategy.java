@@ -26,7 +26,7 @@ public class FirstFitStrategy extends AbstractTruckLoading {
 		if (truckIndex == Integer.MAX_VALUE) {
 			// No existing truck can fit this parcel - create a new one
 			int newIndex = trucks.size();
-			this.addItem(parcel, newIndex);
+			this.addItemToTruck(parcel, newIndex);
 
 			// Add the new truck to the AVL tree
 			Truck newTruck = trucks.get(newIndex);
@@ -39,7 +39,7 @@ public class FirstFitStrategy extends AbstractTruckLoading {
 			tree.delete(existingTruck.getIndex(), existingTruck);
 
 			// Use addItem to handle the parcel addition
-			this.addItem(parcel, truckIndex);
+			this.addItemToTruck(parcel, truckIndex);
 
 			// Get the updated truck reference (in case addItem created a new one)
 			Truck updatedTruck = trucks.get(truckIndex);

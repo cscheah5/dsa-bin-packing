@@ -42,7 +42,7 @@ public abstract class AbstractTruckLoading implements TruckLoadingStrategy {
      *  If the specified index is not available, create a new Truck,
      *  and then add the parcel to that new truck 
      */
-	protected void addItem(Parcel parcel, int binIndex) {
+	protected Truck addItemToTruck(Parcel parcel, int binIndex) {
 		int binSize = this.trucks.size();
 		if(binIndex < 0 || binIndex >= binSize) { //Index not available
 			binIndex = binSize;
@@ -50,6 +50,7 @@ public abstract class AbstractTruckLoading implements TruckLoadingStrategy {
 		}
 		
 		this.trucks.get(binIndex).addParcel(parcel);
+		return this.trucks.get(binIndex);
 	} 
 	
 	protected void printTrucks() {
