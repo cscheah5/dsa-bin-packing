@@ -59,7 +59,7 @@ public class Parcel implements Item, Comparable<Parcel> {
 
 	@Override
 	public String toString() {
-		return "Parcel " + index + ": [type=" + type + ", weight=" + weight + ", fragile=" + fragile + ", destination=" + destination
+		return "Parcel " + (index+1) + ": [type=" + type + ", weight=" + weight + ", fragile=" + fragile + ", destination=" + destination
 				+ "]";
 	}
 	
