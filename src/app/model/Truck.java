@@ -38,6 +38,7 @@ public class Truck extends AbstractStackContainer<Parcel>{
         return false;
     }
     
+    // NOTE: NO POINT PASSING IN PARCEL
     public boolean removeParcel(Parcel parcel) {
     	if(!isEmpty()) {
     		pop();
