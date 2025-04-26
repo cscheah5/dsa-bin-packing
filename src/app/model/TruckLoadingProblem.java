@@ -4,9 +4,9 @@ import java.util.List;
 
 public class TruckLoadingProblem {
 	private final double binCapacity;
-	private final List<Item> parcels;
+	private final List<Parcel> parcels;
 	
-	public TruckLoadingProblem(double binCapacity, List<Item> parcels) {
+	public TruckLoadingProblem(double binCapacity, List<Parcel> parcels) {
 		this.binCapacity = binCapacity;
 		this.parcels = parcels;
 	}
@@ -14,7 +14,7 @@ public class TruckLoadingProblem {
 	public double getBinCapacity() {
 		return binCapacity;
 	}
-	public List<Item> getParcels() {
+	public List<Parcel> getParcels() {
 		return parcels;
 	}
 	
