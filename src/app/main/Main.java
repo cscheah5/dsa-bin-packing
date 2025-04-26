@@ -10,13 +10,13 @@ import app.strategy.*;
 public class Main {
 	public static void main(String[] args) {
 		// Read data from parcel_data.csv, and load 100 records
-		List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv", 100);
+		List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv", 7);
 //		List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv", 1000);
 //		List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv", 10000);
 		System.out.println(parcels);
 		
 		// something like these 
-		TruckLoadingProblem problem1 = new TruckLoadingProblem(100, parcels);
+		TruckLoadingProblem problem1 = new TruckLoadingProblem(10, parcels);
 //		TruckLoadingProblem problem2 = new TruckLoadingProblem(200, parcels);
 //		TruckLoadingProblem problem3 = new TruckLoadingProblem(300, parcels);
 //		TruckLoadingProblem problem4 = new TruckLoadingProblem(400, parcels);
@@ -25,10 +25,12 @@ public class Main {
 		firstFit.solve();
 //		List<Truck> firstFitTrucks = firstFit.solve(problem1);
 //		
-//		TruckLoadingStrategy bestFit = new BestFitStrategy();
-//		List<Truck> bestFitTrucks = bestFit.solve(problems.get(0));
+		TruckLoadingStrategy bestFit = new BestFitStrategy(problem1);
+		bestFit.solve();
 
-		displayResults(firstFit.getTrucks(), "FIRST FIT");
+//		displayResults(firstFit.getTrucks(), "FIRST FIT");
+		displayResults(bestFit.getTrucks(), "BEST FIT");
+		
 //		System.out.println("Comparing Time Complexity:");
 	
 
