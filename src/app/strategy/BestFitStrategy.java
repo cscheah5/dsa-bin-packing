@@ -8,7 +8,7 @@ import java.util.*;
 
 public class BestFitStrategy extends AbstractTruckLoading {
     private TreeMap<Double, Stack<Truck>> treeMap;
-    // Use a map with capacity as key, stack to select first truck when equal capacity
+    // Use a map with capacity as key, stack to store multiple trucks with same capacity
     private int binSize = 0;
 
     public BestFitStrategy(TruckLoadingProblem problem) {
