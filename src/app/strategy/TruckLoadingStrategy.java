@@ -2,9 +2,14 @@ package app.strategy;
 
 import java.util.List;
 
+import app.model.Parcel;
 import app.model.Truck;
 import app.model.TruckLoadingProblem;
 
 public interface TruckLoadingStrategy {
-	List<Truck> solve(TruckLoadingProblem problem);
+	/** Pack all the parcels, by invoking the packParcel method */
+	void solve();
+	
+	/** Pack one of the parcel, and add it to Bin List */
+	void packParcel(Parcel parcel);
 }
