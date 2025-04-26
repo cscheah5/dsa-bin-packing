@@ -2,7 +2,7 @@ package app.model;
 
 import java.util.List;
 
-public class Truck extends AbstractStackContainer<Parcel> {
+public class Truck extends AbstractStackContainer<Parcel> implements Comparable<Truck>{
 	private int index; // To track the truck(bin)
     private double capacity;
     private double remainingCapacity;
@@ -69,4 +69,12 @@ public class Truck extends AbstractStackContainer<Parcel> {
     	return "Truck " + this.index + ", Parcels: " + this.items;
     }
 
+    /** Compare the remaining capacity of trucks */
+    public int compareTo(Truck other) {
+        if (this.remainingCapacity > other.remainingCapacity) return 1;
+        if (this.remainingCapacity < other.remainingCapacity) return -1;
+        // Tie-breaker: lower index wins 
+        return Integer.compare(this.index, other.index);
+    }
+    
 }

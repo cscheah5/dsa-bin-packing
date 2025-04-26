@@ -44,7 +44,7 @@ public abstract class AbstractTruckLoading implements TruckLoadingStrategy {
      */
 	protected void addItem(Parcel parcel, int binIndex) {
 		int binSize = this.trucks.size();
-		if(binIndex < 0 || binIndex >= binSize) {
+		if(binIndex < 0 || binIndex >= binSize) { //Index not available
 			binIndex = binSize;
 			this.trucks.add(new Truck(binIndex, binCapacity));
 		}

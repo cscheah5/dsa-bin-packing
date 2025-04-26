@@ -58,7 +58,6 @@ public class FirstFitStrategy extends AbstractTruckLoading {
 		
 		// Add the item to truck(bin), new truck(bin0 will be created if index not available
 		
-		
 	}
 
 
