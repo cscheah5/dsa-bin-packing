@@ -9,8 +9,9 @@ import app.strategy.*;
 
 public class Main {
 	public static void main(String[] args) {
-		List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv");
-		System.out.println(parcels.get(0));
+		// Read data from parcel_data.csv, and load 100 records
+		List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv", 100);
+		System.out.println(parcels);
 		
 		// something like these 
 //		TruckLoadingProblem problem1 = new TruckLoadingProblem(100, parcels);

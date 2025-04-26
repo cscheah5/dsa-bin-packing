@@ -13,22 +13,25 @@ import app.model.TruckLoadingProblem;
 public class CsvDataLoader {
 	
 	
-	 public static List<Parcel> readCSV(String filePath) {
+	 public static List<Parcel> readCSV(String filePath, int numRecordsToRead) {
 	        String line;
 	        String delimiter = ",";  // CSV delimiter
 	        List<Parcel> parcels = new ArrayList<>();
-
+	        int parsedRecord = 0;
+	        
 	        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 	            // Read the header (first line)
 	            String header = br.readLine();
 	            System.out.println("Header: " + header);
 
 	            // Read the CSV content line by line
-	            while ((line = br.readLine()) != null) {
+	            while ((line = br.readLine()) != null && parsedRecord<numRecordsToRead) {
 	                String[] data = line.split(delimiter);
 	                // Print each line (you can process the data as needed)
 //	                System.out.println("Type: " + data[0] + ", Weight: " + data[1] + ", Fragile: " + data[2] + ", Destination: " + data[3]);
 	                parcels.add(new Parcel(data[0], Double.parseDouble(data[1]), Boolean.parseBoolean(data[2]), data[3]));
+	                
+	                parsedRecord++;
 	            }
 	            
 	        } catch (IOException e) {
