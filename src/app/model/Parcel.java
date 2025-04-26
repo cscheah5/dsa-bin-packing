@@ -1,6 +1,6 @@
 package app.model;
 
-public class Parcel implements Item {
+public class Parcel implements Item, Comparable<Parcel> {
 	private int index; // To track the parcel
 	private String type;
 	private double weight;
@@ -59,8 +59,13 @@ public class Parcel implements Item {
 
 	@Override
 	public String toString() {
-		return "Parcel [type=" + type + ", weight=" + weight + ", fragile=" + fragile + ", destination=" + destination
+		return "Parcel " + index + ": [type=" + type + ", weight=" + weight + ", fragile=" + fragile + ", destination=" + destination
 				+ "]";
 	}
+	
+    @Override
+    public int compareTo(Parcel other) {
+        return Double.compare(this.weight, other.weight);
+    }
 
 }

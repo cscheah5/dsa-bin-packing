@@ -1,217 +1,206 @@
 package app.avltree;
 
-public class AVLTree {
-	public AVLTreeNode root;
+import java.util.Iterator;
+import java.util.List;
 
-	public void printInorder(AVLTreeNode node) {
-		if (node == null)
-			return;
-		printInorder(node.left);
-		System.out.println(node.toString());
-		printInorder(node.right);
-	}
+public class AVLTree<E extends Comparable<E>> {
+    public AVLTreeNode<E> root;
 
-	int height(AVLTreeNode N) {
-		if (N == null)
-			return 0;
+    public void printInorder(AVLTreeNode<E> node) {
+        if (node == null) return;
+        printInorder(node.left);
+        System.out.println(node.toString());
+        printInorder(node.right);
+    }
 
-		return N.height;
-	}
+    int height(AVLTreeNode<E> N) {
+        if (N == null) return 0;
+        return N.height;
+    }
 
-	public int find(double item) {
-		int index = find(this.root, item);
-		return index;
-	}
+    public int find(E item) {
+        return find(this.root, item);
+    }
 
-	private int find(AVLTreeNode node, double item) {
-		if (node == null)
-			return Integer.MAX_VALUE;
-		if (node.value < item)
-			return find(node.right, item);
-		if (node.value > item) {
-			int rightMinIndex = node.right == null ? Integer.MAX_VALUE : node.right.minIndex;
-			int minIndex = Math.min(node.index, rightMinIndex);
-			minIndex = Math.min(minIndex, find(node.left, item));
-			return minIndex;
-		}
+    private int find(AVLTreeNode<E> node, E item) {
+        if (node == null) return Integer.MAX_VALUE;
+        
+        int cmp = item.compareTo(node.value);
+        
+        if (cmp > 0) return find(node.right, item);
+        if (cmp < 0) {
+            int rightMinIndex = node.right == null ? Integer.MAX_VALUE : node.right.minIndex;
+            int minIndex = Math.min(node.index, rightMinIndex);
+            minIndex = Math.min(minIndex, find(node.left, item));
+            return minIndex;
+        }
 
-		int minIndex = Math.min(find(node.left, item), find(node.right, item));
-		minIndex = Math.min(minIndex, node.index);
-		return minIndex;
-	}
+        int minIndex = Math.min(find(node.left, item), find(node.right, item));
+        minIndex = Math.min(minIndex, node.index);
+        return minIndex;
+    }
 
-	public void add(int index, double item) {
-		this.root = add(this.root, index, item);
-		// adjustMinIndex(this.root, true);
-	}
+    public void add(int index, E item) {
+        this.root = add(this.root, index, item);
+    }
 
-	private AVLTreeNode add(AVLTreeNode node, int index, double item) {
+    private AVLTreeNode<E> add(AVLTreeNode<E> node, int index, E item) {
+        if (node == null) return new AVLTreeNode<>(item, index);
 
-		if (node == null)
-			return new AVLTreeNode(item, index);
+        int cmp = item.compareTo(node.value);
+        if (cmp <= 0) {
+            node.left = add(node.left, index, item);
+        } else {
+            node.right = add(node.right, index, item);
+        }
 
-		if (item <= node.value)
-			node.left = add(node.left, index, item);
-		else
-			node.right = add(node.right, index, item);
+        node.height = 1 + Math.max(height(node.left), height(node.right));
 
-		node.height = 1 + Math.min(height(node.left), height(node.right));
+        int balance = getBalance(node);
 
-		int balance = getBalance(node);
+        // Left Left Case
+        if (balance > 1 && item.compareTo(node.left.value) <= 0)
+            return rightRotate(node);
 
-		if (balance > 1 && item < node.left.value)
-			return rightRotate(node);
+        // Right Right Case
+        if (balance < -1 && item.compareTo(node.right.value) > 0)
+            return leftRotate(node);
 
-		if (balance < -1 && item > node.right.value)
-			return leftRotate(node);
+        // Left Right Case
+        if (balance > 1 && item.compareTo(node.left.value) > 0) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
 
-		if (balance > 1 && item > node.left.value) {
-			node.left = leftRotate(node.left);
-			return rightRotate(node);
-		}
+        // Right Left Case
+        if (balance < -1 && item.compareTo(node.right.value) <= 0) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
 
-		if (balance < -1 && item < node.right.value) {
-			node.right = rightRotate(node.right);
-			return leftRotate(node);
-		}
+        adjustMinIndex(node);
+        return node;
+    }
 
-		adjustMinIndex(node);
-		return node;
-	}
+    private AVLTreeNode<E> minValueNode(AVLTreeNode<E> node) {
+        AVLTreeNode<E> current = node;
+        while (current.left != null)
+            current = current.left;
+        return current;
+    }
 
-	private AVLTreeNode minValueNode(AVLTreeNode node) {
-		AVLTreeNode current = node;
+    public void delete(int index, E item) {
+        this.root = delete(this.root, index, item);
+    }
 
-		while (current.left != null)
-			current = current.left;
+    private AVLTreeNode<E> delete(AVLTreeNode<E> node, int index, E item) {
+        if (node == null) return node;
 
-		return current;
-	}
+        int cmp = item.compareTo(node.value);
+        
+        if (cmp < 0) {
+            node.left = delete(node.left, index, item);
+        } else if (cmp > 0) {
+            node.right = delete(node.right, index, item);
+        } else if (index != node.index) {
+            node.left = delete(node.left, index, item);
+            node.right = delete(node.right, index, item);
+        } else {
+            if (node.left == null || node.right == null) {
+                AVLTreeNode<E> temp = (node.left != null) ? node.left : node.right;
 
-	public void delete(int index, double item) {
-		this.root = this.delete(this.root, index, item);
-		// adjustMinIndex(this.root, true);
-	}
+                if (temp == null) {
+                    temp = node;
+                    node = null;
+                } else {
+                    node = temp;
+                }
+            } else {
+                AVLTreeNode<E> temp = minValueNode(node.right);
+                AVLTreeNode.copyTo(temp, node);
+                node.right = delete(node.right, temp.index, temp.value);
+            }
+        }
 
-	private AVLTreeNode delete(AVLTreeNode node, int index, double item) {
-		if (node == null)
-			return node;
+        if (node == null) return node;
 
-		if (item < node.value)
-			node.left = delete(node.left, index, item);
-		else if (item > node.value)
-			node.right = delete(node.right, index, item);
-		else if (index != node.index) {
-			node.left = delete(node.left, index, item);
-			node.right = delete(node.right, index, item);
-		} else {
+        node.height = Math.max(height(node.left), height(node.right)) + 1;
+        int balance = getBalance(node);
 
-			if ((node.left == null) || (node.right == null)) {
-				AVLTreeNode temp = null;
-				if (temp == node.left)
-					temp = node.right;
-				else
-					temp = node.left;
+        // Left Left Case
+        if (balance > 1 && getBalance(node.left) >= 0)
+            return rightRotate(node);
 
-				if (temp == null) {
-					temp = node;
-					node = null;
-				} else
-					node = temp;
+        // Left Right Case
+        if (balance > 1 && getBalance(node.left) < 0) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
 
-			} else {
-				AVLTreeNode temp = minValueNode(node.right);
+        // Right Right Case
+        if (balance < -1 && getBalance(node.right) <= 0)
+            return leftRotate(node);
 
-				AVLTreeNode.copyTo(temp, node);
-				node.right = delete(node.right, temp.index, temp.value);
-			}
-		}
+        // Right Left Case
+        if (balance < -1 && getBalance(node.right) > 0) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
 
-		if (node == null)
-			return node;
+        adjustMinIndex(node);
+        return node;
+    }
 
-		node.height = Math.max(height(node.left), height(node.right)) + 1;
+    AVLTreeNode<E> rightRotate(AVLTreeNode<E> y) {
+        if (y.left == null) return y;
 
-		int balance = getBalance(node);
+        AVLTreeNode<E> x = y.left;
+        AVLTreeNode<E> T2 = x.right;
 
-		if (balance > 1 && getBalance(node) >= 0)
-			return rightRotate(node);
+        x.right = y;
+        y.left = T2;
 
-		if (balance > 1 && getBalance(node.left) < 0) {
-			node.left = leftRotate(node.left);
-			return rightRotate(node);
-		}
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
 
-		if (balance < -1 && getBalance(node.right) <= 0)
-			return leftRotate(node);
+        adjustMinIndex(y);
+        adjustMinIndex(x);
 
-		if (balance < -1 && getBalance(node.right) > 0) {
-			node.right = rightRotate(node.right);
-			return leftRotate(node);
-		}
+        return x;
+    }
 
-		adjustMinIndex(node);
-		return node;
-	}
+    AVLTreeNode<E> leftRotate(AVLTreeNode<E> x) {
+        if (x.right == null) return x;
 
-	AVLTreeNode rightRotate(AVLTreeNode y) {
-		AVLTreeNode x = y.left;
+        AVLTreeNode<E> y = x.right;
+        AVLTreeNode<E> T2 = y.left;
 
-		if (x == null) {
-			return y;
-		}
+        y.left = x;
+        x.right = T2;
 
-		AVLTreeNode T2 = x.right;
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
 
-		x.right = y;
-		y.left = T2;
+        adjustMinIndex(x);
+        adjustMinIndex(y);
 
-		y.height = Math.max(height(y.left), height(y.right)) + 1;
-		x.height = Math.max(height(x.left), height(x.right)) + 1;
+        return y;
+    }
 
-		adjustMinIndex(y);
-		adjustMinIndex(x);
+    int getBalance(AVLTreeNode<E> N) {
+        if (N == null) return 0;
+        return height(N.left) - height(N.right);
+    }
 
-		return x;
-	}
+    private int adjustMinIndex(AVLTreeNode<E> node) {
+        if (node == null) return Integer.MAX_VALUE;
+        int minIndex = node.index;
+        int leftMinIndex = node.left == null ? Integer.MAX_VALUE : node.left.minIndex;
+        int rightMinIndex = node.right == null ? Integer.MAX_VALUE : node.right.minIndex;
+        minIndex = Math.min(minIndex, leftMinIndex);
+        minIndex = Math.min(minIndex, rightMinIndex);
+        node.minIndex = minIndex;
+        return minIndex;
+    }
 
-	AVLTreeNode leftRotate(AVLTreeNode x) {
-		AVLTreeNode y = x.right;
-
-		if (y == null) {
-			return x;
-		}
-
-		AVLTreeNode T2 = y.left;
-
-		y.left = x;
-		x.right = T2;
-
-		x.height = Math.max(height(x.left), height(x.right)) + 1;
-		y.height = Math.max(height(y.left), height(y.right)) + 1;
-
-		adjustMinIndex(x);
-		adjustMinIndex(y);
-
-		return y;
-	}
-
-	int getBalance(AVLTreeNode N) {
-		if (N == null)
-			return 0;
-
-		return height(N.left) - height(N.right);
-	}
-
-	private int adjustMinIndex(AVLTreeNode node) {
-		if (node == null)
-			return Integer.MAX_VALUE;
-		int minIndex = node.index;
-		int leftMinIndex = node.left == null ? Integer.MAX_VALUE : node.left.minIndex;
-		int rightMinIndex = node.right == null ? Integer.MAX_VALUE : node.right.minIndex;
-		minIndex = Math.min(minIndex, leftMinIndex);
-		minIndex = Math.min(minIndex, rightMinIndex);
-		node.minIndex = minIndex;
-		return minIndex;
-	}
 }

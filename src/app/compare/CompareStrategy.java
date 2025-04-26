@@ -44,7 +44,8 @@ public class CompareStrategy {
 		}));
 
 		try {
-			result = strategy.solve(problem);
+			strategy.solve();
+			result = strategy.getTrucks();
 		} finally {
 			System.setOut(originalOut);
 		}

@@ -5,60 +5,42 @@ import java.util.*;
 import app.model.Parcel;
 import app.model.Truck;
 import app.model.TruckLoadingProblem;
+import app.avltree.*;
 
 public class FirstFitStrategy extends AbstractTruckLoading {
+	protected AVLTree<Truck> tree;
+	private int binSize;
+	
     public FirstFitStrategy(TruckLoadingProblem problem) {
 		super(problem);
+		this.binSize = 0;
+		this.tree = new AVLTree<Truck>();
 	}
 
-//    @Override
-//    public void solve(TruckLoadingProblem problem) {    	
-//        trucks.add(0, new Truck(BIN_CAPACITY)); // Initialize first truck
-//        
-//        System.out.printf("Starting First-Fit with %d parcels and capacity %.2f%n",
-//                parcels.size(), problem.getBinCapacity());
-//        
-//        for (int i = 0; i < parcels.size(); i++) {
-//            Parcel parcel = parcels.get(i);
-//            boolean placed = false;
-//            
-//            System.out.printf("%nProcessing parcel %d: %.2fkg %s%n",
-//                    i+1, parcel.getWeight(), parcel.getType());
-//            
-//            // Try existing trucks
-//            for (int j = 0; j < trucks.size(); j++) {
-//                Truck truck = trucks.get(j);
-//                double remaining = truck.getRemainingCapacity();
-//                
-//                System.out.printf("  Checking truck %d (%.2f remaining)... ",
-//                        j+1, remaining);
-//                
-//                if (truck.canFit(parcel)) {
-//                    truck.addParcel(parcel);
-//                    System.out.printf("FIT! Added to truck %d%n", j+1);
-//                    placed = true;
-//                    break;
-//                } else {
-//                    System.out.printf("too heavy (needs %.2f)%n", parcel.getWeight());
-//                }
-//            }
-//            
-//            // Add new truck if needed
-//            if (!placed) {
-//                Truck newTruck = new Truck(problem.getBinCapacity());
-//                newTruck.addParcel(parcel);
-//                trucks.add(newTruck);
-//                System.out.printf("  Created NEW truck %d for this parcel%n", trucks.size());
-//            }
-//        }
-//    }
-
-	public void packParcel(Parcel parcel) {
-		// Find a suitable index for truck(bin)
-		
-		// Add the item to truck(bin), new truck(bin0 will be created if index not available
-		
-	}
-
-
+    @Override
+    public void packParcel(Parcel parcel) {
+        // Find the first truck that can fit the parcel
+        Truck dummyTruck = new Truck(-1, parcel.getWeight());
+        int truckIndex = tree.find(dummyTruck);
+        
+        if (truckIndex == Integer.MAX_VALUE) {
+            // No existing truck can fit this parcel - create a new one
+            Truck newTruck = new Truck(trucks.size(), binCapacity);
+            newTruck.addParcel(parcel);
+            trucks.add(newTruck);
+            tree.add(newTruck.getIndex(), newTruck);
+        } else {
+            // Found a truck that can fit the parcel
+            Truck existingTruck = trucks.get(truckIndex);
+            
+            // Remove the truck from the tree before modification
+            tree.delete(existingTruck.getIndex(), existingTruck);
+            
+            // Add the parcel to the truck
+            existingTruck.addParcel(parcel);
+            
+            // Reinsert the modified truck back into the tree
+            tree.add(existingTruck.getIndex(), existingTruck);
+        }
+    }
 }

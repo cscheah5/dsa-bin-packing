@@ -7,6 +7,9 @@ import app.model.Truck;
 import app.model.TruckLoadingProblem;
 
 public interface TruckLoadingStrategy {
+	/** Return List of Trucks for visualization */
+	List<Truck> getTrucks();
+	
 	/** Pack all the parcels, by invoking the packParcel method */
 	void solve();
 	

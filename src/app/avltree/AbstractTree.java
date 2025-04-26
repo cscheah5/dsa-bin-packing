@@ -1,20 +1,68 @@
 package app.avltree;
 
-public abstract class AbstractTree<E> implements Tree<E> {
-  @Override /** Inorder traversal from the root*/
-  public void inorder() {
-  }
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-  @Override /** Postorder traversal from the root */
-  public void postorder() {
-  }
+public abstract class AbstractTree<E extends Comparable<E>> implements Tree<E> {
+    protected int size = 0;
 
-  @Override /** Preorder traversal from the root */
-  public void preorder() {
-  }
+    @Override
+    public void inorder() {
+        // Default implementation can be overridden
+    }
 
-  @Override /** Return true if the tree is empty */
-  public boolean isEmpty() {
-    return getSize() == 0;
-  }
+    @Override
+    public void postorder() {
+        // Default implementation can be overridden
+    }
+
+    @Override
+    public void preorder() {
+        // Default implementation can be overridden
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    @Override
+    public int getSize() {
+        return size;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new InorderIterator();
+    }
+
+    // Helper method for iterator implementations
+    protected List<E> getInorderList() {
+        List<E> list = new ArrayList<>();
+        inorderTraversal(list, getRoot());
+        return list;
+    }
+
+    // Abstract method to be implemented by concrete trees
+    protected abstract void inorderTraversal(List<E> list, Object node);
+
+    // Abstract method to get root (implementation specific)
+    protected abstract Object getRoot();
+
+    // Inner class for inorder iterator
+    private class InorderIterator implements Iterator<E> {
+        private final List<E> elements = getInorderList();
+        private int current = 0;
+
+        @Override
+        public boolean hasNext() {
+            return current < elements.size();
+        }
+
+        @Override
+        public E next() {
+            return elements.get(current++);
+        }
+    }
 }
