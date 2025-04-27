@@ -1,35 +1,72 @@
 package app.avltree;
 
+/**
+ * Interface defining the basic operations for a tree data structure.
+ *
+ * @param <E> the type of elements stored in the tree
+ */
 public interface Tree<E extends Comparable<E>> extends Iterable<E> {
-    /** Return true if the element is in the tree */
+
+    /**
+     * Searches for the specified element in the tree.
+     * @param e the element to search for.
+     * @return true if the element is found, false otherwise.
+     */
     boolean search(E e);
 
-    /** Insert element into the tree with an index
-     * Return true if the element is inserted successfully */
+    /**
+     * Inserts the specified element into the tree with an index.
+     * @param index the index at which the element should be inserted.
+     * @param e the element to insert.
+     * @return true if the element was inserted successfully, false otherwise.
+     */
     boolean insert(int index, E e);
 
-    /** Delete the specified element with given index from the tree
-     * Return true if the element is deleted successfully */
+    /**
+     * Deletes the specified element from the tree with a given index.
+     * @param index the index of the element to delete.
+     * @param e the element to delete.
+     * @return true if the element was deleted successfully, false otherwise.
+     */
     boolean delete(int index, E e);
 
-    /** Find the smallest index of node with value >= item */
+    /**
+     * Finds the smallest index of a node with a value greater than or equal to the specified item.
+     * @param item the item to compare.
+     * @return the smallest index of a node with a value >= item.
+     */
     int find(E item);
 
-    /** Inorder traversal from the root */
+    /**
+     * Performs an inorder traversal starting from the root.
+     */
     void inorder();
 
-    /** Postorder traversal from the root */
+    /**
+     * Performs a postorder traversal starting from the root.
+     */
     void postorder();
 
-    /** Preorder traversal from the root */
+    /**
+     * Performs a preorder traversal starting from the root.
+     */
     void preorder();
 
-    /** Return true if the tree is empty */
+    /**
+     * Checks if the tree is empty.
+     * @return true if the tree contains no elements, false otherwise.
+     */
     boolean isEmpty();
 
-    /** Get the number of nodes in the tree */
+    /**
+     * Returns the number of nodes in the tree.
+     * @return the size of the tree.
+     */
     int getSize();
 
-    /** Get the height of the tree */
+    /**
+     * Returns the height of the tree.
+     * @return the height of the tree.
+     */
     int getHeight();
 }
