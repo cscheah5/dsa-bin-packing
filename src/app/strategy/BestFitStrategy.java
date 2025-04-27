@@ -2,17 +2,14 @@ package app.strategy;
 
 import app.model.Parcel;
 import app.model.Truck;
-import app.model.TruckLoadingProblem;
-
 import java.util.*;
 
-public class BestFitStrategy extends AbstractTruckLoading {
-    private TreeMap<Double, Stack<Truck>> treeMap;
+public class BestFitStrategy extends AbstractTruckLoadingStrategy {
+    private final TreeMap<Double, Stack<Truck>> treeMap;
     // Use a map with capacity as key, stack to store multiple trucks with same capacity
     private int binSize = 0;
 
-    public BestFitStrategy(TruckLoadingProblem problem) {
-        super(problem);
+    public BestFitStrategy() {
         this.treeMap = new TreeMap<>();
     }
 

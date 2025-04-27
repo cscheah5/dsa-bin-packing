@@ -1,51 +1,49 @@
 package app.strategy;
 
-import java.util.*;
-
+import app.avltree.*;
 import app.model.Parcel;
 import app.model.Truck;
-import app.model.TruckLoadingProblem;
-import app.avltree.*;
 
-public class FirstFitStrategy extends AbstractTruckLoading {
-	protected AVLTree<Truck> tree;
+public class FirstFitStrategy extends AbstractTruckLoadingStrategy {
 
-	public FirstFitStrategy(TruckLoadingProblem problem) {
-		super(problem);
-		this.tree = new AVLTree<Truck>();
-	}
+    protected AVLTree<Truck> tree;
 
-	@Override
-	public void packParcel(Parcel parcel) {
-		// Find the first truck that can fit the parcel
-		// Create a truck of weight as capacity, and use it to
-		// compare to other truck with it as remaining capacity
-		Truck dummyTruck = new Truck(-1, parcel.getWeight()); 
-		int truckIndex = tree.find(dummyTruck);
+    public FirstFitStrategy() {
+        super();
+        this.tree = new AVLTree<>();
+    }
 
-		if (truckIndex == Integer.MAX_VALUE) {
-			// No existing truck can fit this parcel - create a new one
-			int newIndex = trucks.size();
-			this.addItemToTruck(parcel, newIndex);
+    @Override
+    public void packParcel(Parcel parcel) {
+        // Find the first truck that can fit the parcel
+        // Create a truck of weight as capacity, and use it to
+        // compare to other truck with it as remaining capacity
+        Truck dummyTruck = new Truck(-1, parcel.getWeight());
+        int truckIndex = tree.find(dummyTruck);
 
-			// Add the new truck to the AVL tree
-			Truck newTruck = trucks.get(newIndex);
-			tree.add(newTruck.getIndex(), newTruck);
-		} else {
-			// Found a truck that can fit
-			Truck existingTruck = trucks.get(truckIndex);
+        if (truckIndex == Integer.MAX_VALUE) {
+            // No existing truck can fit this parcel - create a new one
+            int newIndex = trucks.size();
+            this.addItemToTruck(parcel, newIndex);
 
-			// Remove from tree before modification
-			tree.delete(existingTruck.getIndex(), existingTruck);
+            // Add the new truck to the AVL tree
+            Truck newTruck = trucks.get(newIndex);
+            tree.add(newTruck.getIndex(), newTruck);
+        } else {
+            // Found a truck that can fit
+            Truck existingTruck = trucks.get(truckIndex);
 
-			// Use addItem to handle the parcel addition
-			this.addItemToTruck(parcel, truckIndex);
+            // Remove from tree before modification
+            tree.delete(existingTruck.getIndex(), existingTruck);
 
-			// Get the updated truck reference (in case addItem created a new one)
-			Truck updatedTruck = trucks.get(truckIndex);
+            // Use addItem to handle the parcel addition
+            this.addItemToTruck(parcel, truckIndex);
 
-			// Add back to tree with updated capacity
-			tree.add(updatedTruck.getIndex(), updatedTruck);
-		}
-	}
+            // Get the updated truck reference (in case addItem created a new one)
+            Truck updatedTruck = trucks.get(truckIndex);
+
+            // Add back to tree with updated capacity
+            tree.add(updatedTruck.getIndex(), updatedTruck);
+        }
+    }
 }

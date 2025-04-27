@@ -3,8 +3,8 @@ package app.model;
 import java.util.List;
 
 public class Truck extends AbstractStackContainer<Parcel> implements Comparable<Truck>{
-	private int index; // To track the truck(bin)
-    private double capacity;
+	private final int index; // To track the truck(bin)
+    private final double capacity;
     private double remainingCapacity;
     
     public Truck(int index, double capacity) {
