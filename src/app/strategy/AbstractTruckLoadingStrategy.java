@@ -26,8 +26,7 @@ import java.util.List;
 public abstract class AbstractTruckLoadingStrategy implements TruckLoadingStrategy {
 
     protected List<Truck> trucks; // Data structure to store the final list of truck
-    protected double binCapacity; //The maximum weight limit of each truck
-    protected int nParcels; // The number of parcels to be processed 
+    protected double truckCapacity; //The maximum weight limit of each truck
     protected List<Parcel> parcels; // The list of parcels
 
     /**
@@ -50,8 +49,7 @@ public abstract class AbstractTruckLoadingStrategy implements TruckLoadingStrate
      * Pack all the parcels, by invoking the packParcel method
      */
     public void solve(TruckLoadingProblem problem) {
-        this.binCapacity = problem.getBinCapacity();
-        this.nParcels = problem.getParcels().size();
+        this.truckCapacity = problem.getBinCapacity();
         this.parcels = problem.getParcels();
 
         for (Parcel parcel : parcels) {
@@ -64,15 +62,15 @@ public abstract class AbstractTruckLoadingStrategy implements TruckLoadingStrate
      * not available, create a new Truck, and then add the parcel to that new
      * truck
      */
-    protected Truck addItemToTruck(Parcel parcel, int binIndex) {
+    protected Truck addItemToTruck(Parcel parcel, int truckIndex) {
         int binSize = this.trucks.size();
-        if (binIndex < 0 || binIndex >= binSize) { //Index not available
-            binIndex = binSize;
-            this.trucks.add(new Truck(binIndex, binCapacity));
+        if (truckIndex < 0 || truckIndex >= binSize) { //Index not available
+            truckIndex = binSize;
+            this.trucks.add(new Truck(truckIndex, truckCapacity));
         }
 
-        this.trucks.get(binIndex).addParcel(parcel);
-        return this.trucks.get(binIndex);
+        this.trucks.get(truckIndex).addParcel(parcel);
+        return this.trucks.get(truckIndex);
     }
 
     protected void printTrucks() {

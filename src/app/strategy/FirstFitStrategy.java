@@ -29,6 +29,7 @@ public class FirstFitStrategy extends AbstractTruckLoadingStrategy {
      *
      * @return The name of this bin packing strategy
      */
+    @Override
     public String getName() {
         return name;
     }

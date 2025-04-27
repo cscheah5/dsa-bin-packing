@@ -25,6 +25,7 @@ public class BestFitStrategy extends AbstractTruckLoadingStrategy {
      *
      * @return The name of this bin packing strategy
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -46,7 +47,7 @@ public class BestFitStrategy extends AbstractTruckLoadingStrategy {
         Truck truck;
         if (suitableCapacity == null || treeMap.get(suitableCapacity).isEmpty()) {
             // No existing truck can fit - create new one
-            truck = new Truck(binSize++, binCapacity);
+            truck = new Truck(binSize++, truckCapacity);
             trucks.add(truck);
         } else {
             // Get the best-fit truck from the stack
