@@ -7,11 +7,46 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A utility class for loading parcel data from CSV files.
+ * <p>
+ * This class provides functionality to read parcel information from a CSV file
+ * and convert it into a list of Parcel objects. It handles validation and parsing
+ * of CSV data with appropriate error handling.
+ * <p>
+ * The expected CSV format is:
+ * - Column 1: Parcel description/name (String)
+ * - Column 2: Weight (Double)
+ * - Column 3: Fragile status (Boolean)
+ * - Column 4: Additional parcel information (String)
+ * <p>
+ * The first line of the CSV file is assumed to be a header and is skipped.
+ */
 public class CsvDataLoader {
 
     private static final String DELIMITER = ",";  // CSV delimiter
     private static final int EXPECTED_COLUMNS = 4; // Define expected number of columns
 
+    /**
+     * Reads parcel data from a CSV file and converts it into a list of Parcel objects.
+     * 
+     * This method processes the CSV file line by line, skipping the header row and parsing
+     * each subsequent row into a Parcel object. It handles various data format errors
+     * by logging warnings and skipping invalid rows.
+     *
+     * The expected CSV format is:
+     * [name],[weight],[fragile],[destination]
+     * where:
+     * - name is a string
+     * - weight is a double
+     * - fragile is a boolean
+     * - destination is a string
+     *
+     * @param filePath The path to the CSV file to be read
+     * @param numRecordsToRead The maximum number of records to read from the file
+     * @return A List of Parcel objects created from the CSV data
+     * @throws IOException If an I/O error occurs while reading the file
+     */
     public static List<Parcel> readCSV(String filePath, int numRecordsToRead) throws IOException {
         String line;
         List<Parcel> parcels = new ArrayList<>();

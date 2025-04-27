@@ -4,15 +4,37 @@ import app.avltree.*;
 import app.model.Parcel;
 import app.model.Truck;
 
+/**
+ * Implements the First Fit bin packing strategy. This strategy attempts to
+ * place each incoming parcel into the first truck found that has enough
+ * remaining capacity. It utilizes an AVL tree to efficiently find suitable
+ * trucks based on their remaining capacity.
+ */
 public class FirstFitStrategy extends AbstractTruckLoadingStrategy {
 
     protected AVLTree<Truck> tree;
 
+    /**
+     * Constructs a new FirstFitStrategy. Initializes the list of trucks and the
+     * AVL tree used for managing trucks.
+     */
     public FirstFitStrategy() {
         super();
         this.tree = new AVLTree<>();
     }
 
+    /**
+     * Packs a given parcel into a truck using the First Fit strategy.
+     *
+     * It searches the AVL tree for the first truck (smallest index with
+     * sufficient capacity) that can accommodate the parcel's weight. If a
+     * suitable truck is found, the parcel is added to that truck, and the
+     * truck's position in the AVL tree is updated based on its new remaining
+     * capacity. If no suitable truck exists, a new truck is created, the parcel
+     * is added to it, and the new truck is inserted into the AVL tree.
+     *
+     * @param parcel The parcel to be packed.
+     */
     @Override
     public void packParcel(Parcel parcel) {
         // Find the first truck that can fit the parcel
