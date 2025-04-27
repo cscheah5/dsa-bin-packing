@@ -13,6 +13,7 @@ import app.model.Truck;
 public class FirstFitStrategy extends AbstractTruckLoadingStrategy {
 
     protected AVLTree<Truck> tree;
+    private final String name = "First Fit Strategy";
 
     /**
      * Constructs a new FirstFitStrategy. Initializes the list of trucks and the
@@ -21,6 +22,15 @@ public class FirstFitStrategy extends AbstractTruckLoadingStrategy {
     public FirstFitStrategy() {
         super();
         this.tree = new AVLTree<>();
+    }
+
+    /**
+     * Gets the name of the packing strategy.
+     *
+     * @return The name of this bin packing strategy
+     */
+    public String getName() {
+        return name;
     }
 
     /**

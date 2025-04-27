@@ -13,11 +13,20 @@ import java.util.*;
 public class BestFitStrategy extends AbstractTruckLoadingStrategy {
 
     private final TreeMap<Double, Stack<Truck>> treeMap;
-    // Use a map with capacity as key, stack to store multiple trucks with same capacity
+    private final String name = "Best Fit Strategy";
     private int binSize = 0;
 
     public BestFitStrategy() {
         this.treeMap = new TreeMap<>();
+    }
+
+    /**
+     * Gets the name of the packing strategy.
+     *
+     * @return The name of this bin packing strategy
+     */
+    public String getName() {
+        return name;
     }
 
     /**

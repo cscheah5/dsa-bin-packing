@@ -13,6 +13,13 @@ public interface TruckLoadingStrategy {
     List<Truck> getTrucks();
 
     /**
+     * Gets the name of this truck loading strategy.
+     *
+     * @return the name of the strategy
+     */
+    String getName();
+
+    /**
      * Pack all the parcels, by invoking the packParcel method
      */
     void solve(TruckLoadingProblem problem);
