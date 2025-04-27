@@ -1,8 +1,5 @@
 package app.avltree;
 
-import java.util.Iterator;
-import java.util.List;
-
 public class AVLTree<E extends Comparable<E>> {
     public AVLTreeNode<E> root;
 
@@ -110,7 +107,6 @@ public class AVLTree<E extends Comparable<E>> {
                 AVLTreeNode<E> temp = (node.left != null) ? node.left : node.right;
 
                 if (temp == null) {
-                    temp = node;
                     node = null;
                 } else {
                     node = temp;
