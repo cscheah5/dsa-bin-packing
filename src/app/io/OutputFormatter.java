@@ -64,7 +64,7 @@ public class OutputFormatter {
         System.out.println("\n=== Strategy Speedup Comparison ===");
         System.out.printf("%-20s %-15s %-15s%n", "Strategy", "Time (ms)", "Speedup vs " + baselineName);
         for (Result r : results) {
-            double speedup = baselineTime > 0 ? ((baselineTime - r.timeMs) / baselineTime) * 100.0 : 0;
+            double speedup = baselineTime > 0 ? (baselineTime / r.timeMs) * 100.0 : 0;
             System.out.printf("%-20s %-15.3f %-15.2f%%%n", r.name, r.timeMs, speedup);
         }
     }

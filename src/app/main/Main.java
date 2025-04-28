@@ -11,26 +11,24 @@ public class Main {
     public static void main(String[] args) {
         // Initialize the list of strategies and the results list
         ArrayList<TruckLoadingStrategy> strategies = new ArrayList<>(Arrays.asList(
-                new FirstFitStrategy(),
-                new BestFitStrategy()
+                new BestFitStrategy(),
+                new FirstFitStrategy()
         ));
         ArrayList<Result> results = new ArrayList<>();
 
         // Loop through each strategy
         for (TruckLoadingStrategy strategy : strategies) {
-            double startTime = System.currentTimeMillis();
-
-            // Read data from parcel_data.csv, and load 100 records
             List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv", 1000);
 
+            // Clone parcels for each run and measure solve only
+            long startTime = System.nanoTime();
             TruckLoadingProblem problem = new TruckLoadingProblem(100, parcels);
             strategy.solve(problem);
-            displayResults(strategy.getTrucks(), "BEST FIT");
-
-            double endTime = System.currentTimeMillis();
-            System.out.println("Execution time: " + (endTime - startTime) + " ms");
-
-            results.add(new Result(strategy.getName(), endTime - startTime, 0, strategy.getTrucks()));
+            long endTime = System.nanoTime();
+            long durationMs = (endTime - startTime) / 1_000_000;
+            displayResults(strategy.getTrucks(), strategy.getName());
+            System.out.println("Execution time: " + durationMs + " ms");
+            results.add(new Result(strategy.getName(), durationMs, 0, strategy.getTrucks()));
         }
 
         displayComparison(results);
