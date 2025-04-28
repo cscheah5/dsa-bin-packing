@@ -1,72 +1,58 @@
 package app.strategy;
 
-import app.avltree.*;
+import java.util.*;
+
 import app.model.Parcel;
 import app.model.Truck;
+import app.model.TruckLoadingProblem;
+import app.avltree.*;
 
-/**
- * Implements the First Fit bin packing strategy. This strategy attempts to
- * place each incoming parcel into the first truck found that has enough
- * remaining capacity. It utilizes an AVL tree to efficiently update trucks
- * based on their remaining capacity.
- */
 public class FirstFitStrategy extends AbstractTruckLoadingStrategy {
 
     protected AVLTree<Truck> tree;
     private final String name = "First Fit Strategy";
 
-    /**
-     * Constructs a new FirstFitStrategy. Initializes the list of trucks and the
-     * AVL tree used for managing trucks.
-     */
     public FirstFitStrategy() {
         super();
-        this.tree = new AVLTree<>();
+        this.tree = new AVLTree<Truck>();
     }
 
-    /**
-     * Gets the name of the packing strategy.
-     *
-     * @return The name of this bin packing strategy
-     */
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Packs a given parcel into a truck using the First Fit strategy.
-     *
-     * It iterates through the list of trucks in order and assigns the parcel to
-     * the first truck found with enough remaining capacity. The AVL tree is used
-     * for fast updates to the truck's position based on its new remaining capacity.
-     * If no suitable truck exists, a new truck is created, the parcel is added to
-     * it, and the new truck is inserted into the AVL tree.
-     *
-     * @param parcel The parcel to be packed.
-     */
     @Override
     public void packParcel(Parcel parcel) {
-        // First Fit: iterate trucks in order, assign to first with enough space
-        boolean placed = false;
-        for (int i = 0; i < trucks.size(); i++) {
-            Truck truck = trucks.get(i);
-            if (truck.getRemainingCapacity() >= parcel.getWeight()) {
-                // Remove from tree before modification (if AVL tree is used for fast updates)
-                tree.delete(truck.getIndex(), truck);
-                this.addItemToTruck(parcel, i);
-                Truck updatedTruck = trucks.get(i);
-                tree.add(updatedTruck.getIndex(), updatedTruck);
-                placed = true;
-                break;
-            }
-        }
-        if (!placed) {
+        // Find the first truck that can fit the parcel
+        // Create a truck of weight as capacity, and use it to
+        // compare to other truck with it as remaining capacity
+        Truck dummyTruck = new Truck(-1, parcel.getWeight());
+        int truckIndex = tree.find(dummyTruck);
+
+        if (truckIndex == Integer.MAX_VALUE) {
             // No existing truck can fit this parcel - create a new one
             int newIndex = trucks.size();
             this.addItemToTruck(parcel, newIndex);
+
+            // Add the new truck to the AVL tree
             Truck newTruck = trucks.get(newIndex);
             tree.add(newTruck.getIndex(), newTruck);
+        } else {
+            // Found a truck that can fit
+            Truck existingTruck = trucks.get(truckIndex);
+
+            // Remove from tree before modification
+            tree.delete(existingTruck.getIndex(), existingTruck);
+
+            // Use addItem to handle the parcel addition
+            this.addItemToTruck(parcel, truckIndex);
+
+            // Get the updated truck reference (in case addItem created a new one)
+            Truck updatedTruck = trucks.get(truckIndex);
+
+            // Add back to tree with updated capacity
+            tree.add(updatedTruck.getIndex(), updatedTruck);
         }
     }
+
+	@Override
+	public String getName() {
+		return name;
+	}
 }

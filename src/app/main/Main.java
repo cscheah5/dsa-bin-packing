@@ -1,36 +1,36 @@
 package app.main;
 
+import java.util.*;
+
 import app.compare.StrategyComparison;
 import app.io.CsvDataLoader;
 import app.model.*;
 import app.strategy.*;
-import java.io.IOException;
-import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        List<Parcel> parcels = new ArrayList<>();
-        try {
-            parcels = CsvDataLoader.readCSV("parcel_data.csv", 100);
-            System.out.println(parcels);
-        } catch (IOException e) {
-            System.err.println("Error reading CSV file: " + e.getMessage());
-        }
+        // Read data from parcel_data.csv, and load 100 records
+        List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv", 100);
+
         System.out.println(parcels);
 
+        // something like these 
         TruckLoadingProblem problem1 = new TruckLoadingProblem(100, parcels);
 
+//		
         TruckLoadingStrategy firstFit = new FirstFitStrategy();
         firstFit.solve(problem1);
         displayResults(firstFit.getTrucks(), "FIRST FIT");
-
+//		List<Truck> firstFitTrucks = firstFit.solve(problem1);
+//		
         TruckLoadingStrategy bestFit = new BestFitStrategy();
         bestFit.solve(problem1);
         displayResults(bestFit.getTrucks(), "BEST FIT");
 
+//		System.out.println("Comparing Time Complexity:");
         StrategyComparison.compareTimeComplexity(firstFit, bestFit, problem1);
-        StrategyComparison.compareSpaceComplexity(firstFit, bestFit, problem1);
+
     }
 
     public static void displayResults(List<Truck> trucks, String strategyName) {
