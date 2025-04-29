@@ -1,10 +1,7 @@
 package app.strategy;
 
-import java.util.*;
-
 import app.model.Parcel;
 import app.model.Truck;
-import app.model.TruckLoadingProblem;
 import app.avltree.*;
 
 public class FirstFitStrategy extends AbstractTruckLoadingStrategy {
