@@ -18,6 +18,12 @@ public class TruckLoadingProblem {
      * @param parcels The list of parcels (items) that need to be loaded.
      */
     public TruckLoadingProblem(double binCapacity, List<Parcel> parcels) {
+        if (binCapacity <= 0) {
+            throw new IllegalArgumentException("Bin capacity must be greater than zero.");
+        }
+        if (parcels == null || parcels.isEmpty()) {
+            throw new IllegalArgumentException("Parcels list cannot be null or empty.");
+        }
         this.binCapacity = binCapacity;
         this.parcels = parcels;
     }

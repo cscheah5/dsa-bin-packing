@@ -1,8 +1,8 @@
 package app.io;
 
-import java.util.List;
-import app.model.Truck;
 import app.model.Result;
+import app.model.Truck;
+import java.util.List;
 
 public class OutputFormatter {
 
@@ -62,7 +62,7 @@ public class OutputFormatter {
                 .findFirst().map(r -> r.name).orElse("");
 
         System.out.println("\n=== Strategy Speedup Comparison ===");
-        System.out.printf("%-20s %-15s %-15s%n", "Strategy", "Time (ms)", "Speedup vs " + baselineName);
+        System.out.printf("%-20s %-15s %-15s%n", "Strategy", "Time (ms)", "Speed vs " + baselineName);
         for (Result r : results) {
             double speedup = baselineTime > 0 ? (baselineTime / r.timeMs) * 100.0 : 0;
             System.out.printf("%-20s %-15.3f %-15.2f%%%n", r.name, r.timeMs, speedup);

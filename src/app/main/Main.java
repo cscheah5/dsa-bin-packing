@@ -18,7 +18,7 @@ public class Main {
 
         // Loop through each strategy
         for (TruckLoadingStrategy strategy : strategies) {
-            List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv", 100);
+            List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv", 500);
 
             // Clone parcels for each run and measure solve only
             long startTime = System.nanoTime();
