@@ -13,7 +13,7 @@ public class OutputFormatter {
 
         printSummary(trucks);
         printVisualization(trucks);
-        // printDetailedTrucks(trucks);
+        printDetailedTrucks(trucks);
     }
 
     private static void printSummary(List<Truck> trucks) {
