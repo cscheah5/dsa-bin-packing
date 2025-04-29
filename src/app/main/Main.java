@@ -18,14 +18,15 @@ public class Main {
 
         // Loop through each strategy
         for (TruckLoadingStrategy strategy : strategies) {
-            List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv", 1000);
+            List<Parcel> parcels = CsvDataLoader.readCSV("parcel_data.csv", 100);
 
             // Clone parcels for each run and measure solve only
             long startTime = System.nanoTime();
             TruckLoadingProblem problem = new TruckLoadingProblem(100, parcels);
             strategy.solve(problem);
             long endTime = System.nanoTime();
-            long durationMs = (endTime - startTime) / 1_000_000;
+            long durationNs = endTime - startTime;
+            double durationMs = durationNs / 1_000_000.0;
             displayResults(strategy.getTrucks(), strategy.getName());
             System.out.println("Execution time: " + durationMs + " ms");
             results.add(new Result(strategy.getName(), durationMs, 0, strategy.getTrucks()));
