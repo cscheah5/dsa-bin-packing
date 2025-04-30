@@ -18,6 +18,18 @@ public class TruckLoadingProblem {
      * @param parcels The list of parcels (items) that need to be loaded.
      */
     public TruckLoadingProblem(double binCapacity, List<Parcel> parcels) {
+        if (binCapacity <= 0) {
+            throw new IllegalArgumentException("Bin capacity must be greater than zero.");
+        }
+        if (parcels == null || parcels.isEmpty()) {
+            throw new IllegalArgumentException("Parcels list cannot be null or empty.");
+        }
+        // Check if any parcel is too large for the bin
+        double maxParcelWeight = parcels.stream().mapToDouble(Parcel::getWeight).max().orElse(0);
+        if (binCapacity < maxParcelWeight) {
+            System.err.printf("Unsolvable: Bin capacity %.2f is smaller than the largest parcel weight %.2f.\n", binCapacity, maxParcelWeight);
+            throw new IllegalArgumentException("Problem is unsolvable: bin capacity is smaller than the largest parcel.");
+        }
         this.binCapacity = binCapacity;
         this.parcels = parcels;
     }

@@ -1,9 +1,13 @@
 package app.strategy;
 
+import app.avltree.*;
 import app.model.Parcel;
 import app.model.Truck;
-import app.avltree.*;
 
+/**
+ * Strategy that packs parcels into the first truck that can accommodate them.
+ * Uses an AVLTree to track trucks by remaining capacity for efficient search.
+ */
 public class FirstFitStrategy extends AbstractTruckLoadingStrategy {
 
     protected AVLTree<Truck> tree;
@@ -11,9 +15,13 @@ public class FirstFitStrategy extends AbstractTruckLoadingStrategy {
 
     public FirstFitStrategy() {
         super();
-        this.tree = new AVLTree<Truck>();
+        this.tree = new AVLTree<>();
     }
 
+    /**
+     * Packs a parcel into the first available truck that can fit it using an AVL tree for efficient search.
+     * @param parcel the parcel to be packed
+     */
     @Override
     public void packParcel(Parcel parcel) {
         // Find the first truck that can fit the parcel
@@ -48,6 +56,10 @@ public class FirstFitStrategy extends AbstractTruckLoadingStrategy {
         }
     }
 
+    /**
+     * Returns the name of this strategy.
+     * @return the strategy name
+     */
 	@Override
 	public String getName() {
 		return name;
