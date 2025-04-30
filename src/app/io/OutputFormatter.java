@@ -3,7 +3,12 @@ package app.io;
 import app.model.Result;
 import app.model.Truck;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OutputFormatter {
 
@@ -52,21 +57,78 @@ public class OutputFormatter {
         }
     }
 
-    public static void displayComparison(List<Result> results, PrintWriter writer) {
-        if (results == null || results.isEmpty()) {
+    /**
+     * Displays a comparison of strategy performance across different parcel
+     * counts, including execution times and estimated growth rates.
+     *
+     * @param resultsMap A map where keys are strategy names and values are
+     * lists of Results (each Result corresponding to a specific parcel count
+     * run).
+     * @param writer The PrintWriter to write the output to.
+     */
+    public static void displayComparison(Map<String, ArrayList<Result>> resultsMap, PrintWriter writer) {
+        if (resultsMap == null || resultsMap.isEmpty()) {
+            writer.println("\nNo comparison results to display.");
             return;
         }
-        // find baseline (slowest) time and its name
-        double baselineTime = results.stream().mapToDouble(r -> r.timeMs).max().orElse(0);
-        String baselineName = results.stream()
-                .filter(r -> r.timeMs == baselineTime)
-                .findFirst().map(r -> r.name).orElse("");
 
-        writer.println("\n=== Strategy Speedup Comparison ===");
-        writer.printf("%-20s %-15s %-15s%n", "Strategy", "Time (ms)", "Speed vs " + baselineName);
-        for (Result r : results) {
-            double speedup = baselineTime > 0 ? (baselineTime / r.timeMs) * 100.0 : 0;
-            writer.printf("%-20s %-15.3f %-15.2f%%%n", r.name, r.timeMs, speedup);
+        writer.println("\n=== Strategy Time Complexity Comparison ===");
+        int maxParcelCount = resultsMap.values().stream()
+                .flatMap(List::stream)
+                .mapToInt(r -> r.parcelCount)
+                .max().orElse(0);
+        Map<String, Double> maxTimes = new HashMap<>();
+
+        for (Map.Entry<String, ArrayList<Result>> entry : resultsMap.entrySet()) {
+            String strategyName = entry.getKey();
+            ArrayList<Result> resultsList = entry.getValue();
+            resultsList.sort(Comparator.comparingInt(r -> r.parcelCount));
+
+            writer.printf("\n--- Strategy: %s ---%n", strategyName);
+            writer.printf("%-15s %-15s %-15s %-15s%n", "Parcel Count", "Time (ms)", "Time Ratio", "log Ratio");
+            writer.println("---------------------------------------------------------------");
+
+            Result prev = null;
+            double growthSum = 0;
+            double logSum = 0;
+            int growthCount = 0;
+            for (Result curr : resultsList) {
+                String ratioStr = "-";
+                String logStr = "-";
+                if (prev != null && prev.timeMs > 0 && prev.parcelCount > 0) {
+                    double ratio = curr.timeMs / prev.timeMs;
+                    double countRatio = (double) curr.parcelCount / prev.parcelCount;
+                    ratioStr = String.format("%.2fx", ratio);
+                    if (ratio > 0 && countRatio > 0) {
+                        double logRatio = Math.log(ratio) / Math.log(countRatio);
+                        logStr = String.format("%.2f", logRatio);
+                        logSum += logRatio;
+                    }
+                    growthSum += ratio;
+                    growthCount++;
+                }
+                writer.printf("%-15d %-15.3f %-15s %-15s%n", curr.parcelCount, curr.timeMs, ratioStr, logStr);
+                prev = curr;
+                if (curr.parcelCount == maxParcelCount) {
+                    maxTimes.put(strategyName, curr.timeMs);
+                }
+            }
+            if (growthCount > 0) {
+                double avgGrowth = growthSum / growthCount;
+                double avgLog = logSum / growthCount;
+                writer.printf("Estimated growth rate: %.2fx per 10x parcels\n", avgGrowth);
+                writer.printf("Estimated O(N^k) exponent: k ≈ %.2f\n", avgLog);
+            }
         }
+        if (maxTimes.size() > 1) {
+            String slowest = Collections.max(maxTimes.entrySet(), Map.Entry.comparingByValue()).getKey();
+            String fastest = Collections.min(maxTimes.entrySet(), Map.Entry.comparingByValue()).getKey();
+            double slowestTime = maxTimes.get(slowest);
+            double fastestTime = maxTimes.get(fastest);
+            double speedup = (slowestTime - fastestTime) / slowestTime * 100.0;
+            writer.printf("\n%s is approximately %.1f%% faster than %s for N=%d.\n",
+                    fastest, speedup, slowest, maxParcelCount);
+        }
+        writer.println("\nNote: 'Time Ratio' shows T(N) / T(Previous N). 'log Ratio' estimates the exponent k in O(N^k).\n");
     }
 }
