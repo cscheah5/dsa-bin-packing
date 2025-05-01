@@ -1,62 +1,55 @@
 package app.avltree;
 
 /**
- * Represents a node in an AVL Tree. Each node holds a value of type E, which
- * must be comparable, along with its height in the tree, an index (e.g., for
- * bin identification), and references to its left and right children.
+ * AVLTreeNode class for AVL tree structure.
  *
- * @param <E> the type of the value stored in the node, must extend Comparable
+ * @param <E> the type of element stored in the node
  */
 public class AVLTreeNode<E extends Comparable<E>> {
 
     /**
-     * The value stored in this node.
+     * The value stored in the node.
      */
     public E value;
-
     /**
-     * The height of the subtree rooted at this node.
+     * The minimum index in the subtree rooted at this node.
+     */
+    public int minIndex;
+    /**
+     * The height of the node in the AVL tree.
      */
     public int height;
-
     /**
-     * An index associated with this node, often used for identification (e.g.,
-     * bin number).
+     * The index associated with the value.
      */
     public int index;
-
     /**
-     * The left child of this node.
+     * Reference to the left child node.
      */
     public AVLTreeNode<E> left;
-
     /**
-     * The right child of this node.
+     * Reference to the right child node.
      */
     public AVLTreeNode<E> right;
 
     /**
-     * Constructs a new AVLTreeNode with the given value and index. The height
-     * is initialized to 1, assuming it's a leaf node initially. Left and right
-     * children are initialized to null.
+     * Constructs a new AVLTreeNode with the given value and index.
      *
-     * @param value the value to store in the node
-     * @param index the index associated with the node
+     * @param value the value to store
+     * @param index the index associated with the value
      */
     public AVLTreeNode(E value, int index) {
         this.index = index;
+        this.minIndex = index;
         this.value = value;
-        this.height = 1; // Initialize height to 1 for a new leaf node
-        // left and right are implicitly null
     }
 
     /**
-     * Copies the value, index, and height from one AVLTreeNode to another. Does
-     * nothing if either node is null.
+     * Copies the value, index, height, and minIndex from one node to another.
      *
-     * @param <E> the type of the value stored in the nodes
-     * @param fromNode the node to copy data from
-     * @param toNode the node to copy data to
+     * @param fromNode the node to copy from
+     * @param toNode the node to copy to
+     * @param <E> the type of element stored in the node
      */
     public static <E extends Comparable<E>> void copyTo(AVLTreeNode<E> fromNode, AVLTreeNode<E> toNode) {
         if (fromNode == null || toNode == null) {
@@ -64,14 +57,14 @@ public class AVLTreeNode<E extends Comparable<E>> {
         }
         toNode.value = fromNode.value;
         toNode.index = fromNode.index;
-        toNode.height = fromNode.height;
+        toNode.height = fromNode.height;  // Copy height
+        toNode.minIndex = fromNode.minIndex;  // Copy minIndex
     }
 
     /**
-     * Returns a string representation of the node, typically showing its index
-     * and value. Example: "Bin #1: [Value Details]"
+     * Returns a string representation of the node.
      *
-     * @return a string representation of the node
+     * @return a string in the format "Bin #index: value"
      */
     @Override
     public String toString() {
