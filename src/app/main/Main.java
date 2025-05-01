@@ -25,7 +25,7 @@ public class Main {
         }
 
         // Initialize the list of strategies
-        List<Class<? extends TruckLoadingStrategy>> strategyClasses = Arrays.asList(BestFitStrategy.class, FirstFitStrategy.class);
+        List<Class<? extends TruckLoadingStrategy>> strategyClasses = Arrays.asList(FirstFitStrategy.class, BestFitStrategy.class);
 
         // Loop through each strategy and solve the problem with different bin sizes
         for (Class<? extends TruckLoadingStrategy> strategyClass : strategyClasses) {
