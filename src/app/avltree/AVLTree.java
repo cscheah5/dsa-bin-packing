@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @param <E> the type of elements maintained by this tree
  */
-public class AVLTree<E extends Comparable<E>> extends AbstractTree<E, AVLTreeNode<E>> implements Tree<E> {
+public class AVLTree<E extends Comparable<E>> extends AbstractTree<E, AVLTreeNode<E>> {
 
     /**
      * The root node of the AVL tree.
