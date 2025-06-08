@@ -86,3 +86,8 @@ The included `parcel_data.csv` uses the following columns:
   - See [`src/app/avltree/AVLTreeNode.java`](src/app/avltree/AVLTreeNode.java)
 - **CSV Parsing**: Reads parcel data from a CSV file.
 - **Eclipse Project**: Ready-to-import with `.classpath` and `.project`.
+
+## Contributors
+<a href="https://github.com/Sodiumchloridy/bin-packing-java/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Sodiumchloridy/bin-packing-java" />
+</a>
