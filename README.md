@@ -48,7 +48,7 @@ It is widely studied in computer science, logistics, and operations research due
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/Sodiumchloridy/bin-packing-java.git
+   git clone https://github.com/cscheah5/dsa-bin-packing.git
    ```
 
 2. **Import into Eclipse:**
@@ -88,6 +88,6 @@ The included `parcel_data.csv` uses the following columns:
 - **Eclipse Project**: Ready-to-import with `.classpath` and `.project`.
 
 ## Contributors
-<a href="https://github.com/Sodiumchloridy/bin-packing-java/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Sodiumchloridy/bin-packing-java" />
+<a href="https://github.com/cscheah5/dsa-bin-packing/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=cscheah5/dsa-bin-packing" />
 </a>
